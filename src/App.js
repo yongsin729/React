@@ -19,6 +19,7 @@ function App() {
  let [title,titleChange]= useState(['남자 코트 추천','강남 우동 맛집','회기 삼겹살']);
 let[cnt,cntChange]=useState([0,0,0]);
 let[modal,modalChange]=useState(false);
+let [누른제목,누른제목변경]=useState(0);
 
 function 제목변경(){
   let newArray=[...title];//deep copy 를 해야 값 공유가 안됨, 무조건 이런식으로. 
@@ -44,7 +45,13 @@ function 따봉(i){
          title.map(function(a,i){
            return (
             <div className='list'>
-            <h4>{a} <span onClick={()=>{//i 는 state안에 있는 각각의 데이터 
+            <h4 onClick={()=>{
+         누른제목변경(i);
+         modalChange(!modal);
+         //  modal===false
+        //  ? modalChange(modal=true)
+        //  : modalChange(modal=false)
+       }}>{a} <span onClick={()=>{//i 는 state안에 있는 각각의 데이터 
               따봉(i)
             }}>👍</span> {cnt[i]} </h4>
             <p>2월 17일 발행</p>
@@ -54,17 +61,9 @@ function 따봉(i){
          })
        }
 
-
-       <button onClick={()=>{
-        modalChange(!modal)
-        //  modal===false
-        //  ? modalChange(modal=true)
-        //  : modalChange(modal=false)
-       }}>버튼</button>
-
        {
          modal===true
-         ? <Modal></Modal>
+         ? <Modal title={title} 누른제목={누른제목}></Modal>
          : null
        }
 
@@ -72,11 +71,11 @@ function 따봉(i){
   );
 }
 
-function Modal(){// Component는 대괄호로 
+function Modal(props){// Component는 대괄호로 
   return(
     <>
     <div className='modal'>
-         <h2>제목</h2>
+        <h2>{props.title[props.누른제목]}</h2>
          <p>날짜</p>
          <p>내용</p>
        </div>
