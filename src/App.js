@@ -20,10 +20,16 @@ function App() {
 let[cnt,cntChange]=useState([0,0,0]);
 let[modal,modalChange]=useState(false);
 let [누른제목,누른제목변경]=useState(0);
-
+let [입력값,입력값변경]=useState('');
+let titletmp='';
 function 제목변경(){
   let newArray=[...title];//deep copy 를 해야 값 공유가 안됨, 무조건 이런식으로. 
   newArray[0]='여자코트 추천';//원하는 부분의 데이터 변경 후 스테이트변경. 
+  titleChange(newArray);
+}
+function titleAdd(tmp){
+  let newArray=[...title];
+  newArray.push(tmp);
   titleChange(newArray);
 }
 function 따봉(i){
@@ -61,6 +67,19 @@ function 따봉(i){
          })
        }
 
+       <div className='publish'>
+         <input onChange={(e)=>{
+           titletmp=e.target.value;    
+         }}/>
+         <button onClick={()=>{
+           titleAdd(titletmp)
+         }}>저장</button>
+       </div>
+
+      {/* <input onChange={(e)=>{//입력이 될 시 실행값 
+        입력값변경(e.target.value)
+        console.log(입력값)
+        }}/> */}
        {
          modal===true
          ? <Modal title={title} 누른제목={누른제목}></Modal>
